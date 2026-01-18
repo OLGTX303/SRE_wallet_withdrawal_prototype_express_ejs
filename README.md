@@ -62,7 +62,7 @@ Example:
 - `GET /reset` — Reset current withdrawal
 - `GET /health` — Health check JSON
 
-## 4) Maybank-Inspired UI Style
+## 4) SRE-ETIQA-Inspired UI Style
 - Yellow/Black primary theme, card-based layout, sticky bottom CTA
 - Clear status chips: success / warning / error
 - Loading states for screening, limit checks, and bank processing
