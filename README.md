@@ -1,4 +1,4 @@
-# Maybank-Inspired Wallet Withdrawal & Fraud Control (Express + EJS)
+# SRE-Inspired Wallet Withdrawal & Fraud Control (Express + EJS)
 
 This project is a **high-fidelity prototype** (not a real banking system) to demonstrate:
 - **Use Case:** UC-007 Withdraw Funds to Bank
