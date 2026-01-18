@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # ?? sre-etiqa Wallet Reinvestment & Fraud Control (Express + EJS)
+=======
+# SRE-Inspired Wallet Withdrawal & Fraud Control (Express + EJS)
+>>>>>>> 37f94c9678b0abcf6ab3bf04cf7c95f89cef8a71
 
 This project is a **high-fidelity prototype** (not a real banking system) to demonstrate:
 - ? **Use Case:** UC-008 Reinvest Funds
@@ -61,10 +65,17 @@ Examples:
 - ?? `GET /reset` - Reset current reinvest session
 - ?? `GET /health` - Health check JSON
 
+<<<<<<< HEAD
 ## ?? 4) sre-etiqa UI Style
 - ?? Yellow/Black primary theme, card-based layout, sticky bottom CTA
 - ? Clear status chips: success / warning / error
 - ? Loading states for eligibility and screening
+=======
+## 4) SRE-ETIQA-Inspired UI Style
+- Yellow/Black primary theme, card-based layout, sticky bottom CTA
+- Clear status chips: success / warning / error
+- Loading states for screening, limit checks, and bank processing
+>>>>>>> 37f94c9678b0abcf6ab3bf04cf7c95f89cef8a71
 
 ## ?? 5) Notes
 - ?? Prototype only: no real banking, no real authentication, no DB.
