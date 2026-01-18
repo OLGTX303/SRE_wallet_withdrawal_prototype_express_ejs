@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/misuse/fraud-withdrawal?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <p class="h2">Add bank account (mock)</p>
+        <p class="muted" style="margin-top:6px;">For demo: adding a new account increases risk and triggers blocking.</p>
+
+        <% if (error) { %>
+          <div class="banner error"><b>Action needed:</b> <%= error %></div>
+        <% } %>
+
+        <form id="add-bank-form" method="post" action="/misuse/add-bank?scenario=<%= scenario %>">
+          <div class="field">
+            <label for="bankName">Bank name</label>
+            <input id="bankName" name="bankName" placeholder="e.g. Bank Example" />
+          </div>
+
+          <div class="field">
+            <label for="accountNo">Account number</label>
+            <input id="accountNo" name="accountNo" inputmode="numeric" placeholder="e.g. 1234567890" />
+          </div>
+          <div id="client-check-msg" class="muted" style="margin-top:6px;"></div>
+
+          <div class="sticky">
+            <div class="inner">
+              <a class="btn ghost" href="/misuse/fraud-withdrawal?scenario=<%= scenario %>">Cancel</a>
+              <button class="btn primary" type="submit">Add & Continue</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <p class="h2">Risk triggers (prototype)</p>
+        <ul class="muted" style="margin-top:8px; padding-left:18px;">
+          <li>New beneficiary (new bank account)</li>
+          <li>Unusual amount</li>
+          <li>Unusual device / location (mock)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-overlay" id="client-check-modal">
+      <div class="modal-card">
+        <p class="h2">Alert</p>
+        <p class="muted" id="client-check-text" style="margin-top:6px;"></p>
+        <div class="row" style="margin-top:12px;">
+          <a class="btn ghost" href="mailto:support@example.com">Contact support</a>
+          <button class="btn primary" type="button" id="client-check-close">Close</button>
+        </div>
+      </div>
+    </div>
+    <% if (error) { %>
+      <div class="modal-overlay" data-modal>
+        <div class="modal-card">
+          <p class="h2">Alert</p>
+          <p class="muted" style="margin-top:6px;"><%= error %></p>
+          <div class="row" style="margin-top:12px;">
+            <a class="btn ghost" href="mailto:support@example.com">Contact support</a>
+            <button class="btn primary" type="button" data-modal-close>Close</button>
+          </div>
+        </div>
+      </div>
+    <% } %>
+    <script>
+      (function(){
+        const form = document.getElementById("add-bank-form");
+        if (!form) return;
+        const msg = document.getElementById("client-check-msg");
+        const modal = document.getElementById("client-check-modal");
+        const modalText = document.getElementById("client-check-text");
+        const closeBtn = document.getElementById("client-check-close");
+        const showModal = (text) => {
+          modalText.textContent = text;
+          modal.classList.add("show");
+        };
+        if (closeBtn) {
+          closeBtn.addEventListener("click", () => modal.classList.remove("show"));
+        }
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          msg.textContent = "Checking bank account...";
+          const bankName = (document.getElementById("bankName") || {}).value || "";
+          const accountNo = (document.getElementById("accountNo") || {}).value || "";
+          const digits = String(accountNo).replace(/\\D/g, "");
+          if (!bankName || digits.length < 8) {
+            msg.textContent = "";
+            showModal("Please enter a valid bank name and account number.");
+            return;
+          }
+          try {
+            const resp = await fetch("/api/semakmule", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ bankAccount: digits })
+            });
+            const data = await resp.json();
+            if (!data || data.ok !== true) {
+              msg.textContent = "";
+              showModal(data?.error || "Unable to verify account right now. Please try again later.");
+              return;
+            }
+            const reportCount = Number(data.reportCount || 0);
+            if (reportCount > 0) {
+              msg.textContent = "";
+              showModal("This bank account has been reported (" + reportCount + " time(s)). Please contact customer service.");
+              return;
+            }
+            msg.textContent = "Account verified. Submitting...";
+            form.submit();
+          } catch (err) {
+            msg.textContent = "";
+            showModal("Unable to verify account right now. Please try again later.");
+          }
+        });
+      })();
+    </script>
+    <%- include('partials/footer') %>
+  </body>
+</html>

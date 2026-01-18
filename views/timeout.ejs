@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="pill warning">Pending</div>
+        <p class="h2" style="margin-top:10px;">We couldn’t confirm with the bank</p>
+        <p class="muted" style="margin-top:6px;">
+          The request timed out. Your wallet balance is unchanged until confirmation is received.
+        </p>
+
+        <div class="banner warn">
+          <div class="row"><div>To</div><div><b><%= bank.name %> <%= bank.acctMasked %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>Amount</div><div><b><%= formatRM(withdrawal.amount || 0) %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>Status</div><div><b>Timeout</b></div></div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/withdraw/bank-processing?scenario=success">Check status</a>
+            <a class="btn primary" href="/dashboard?scenario=<%= scenario %>">Done</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="h2">What should I do?</p>
+        <ul class="muted" style="margin-top:8px; padding-left:18px;">
+          <li>Wait a few minutes and check again.</li>
+          <li>If the issue persists, contact support.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-overlay" data-modal>
+      <div class="modal-card">
+        <p class="h2">Action needed</p>
+        <p class="muted" style="margin-top:6px;">We couldn't confirm with the bank. Contact customer service if needed.</p>
+        <div class="row" style="margin-top:12px;">
+          <a class="btn ghost" href="mailto:support@example.com">Contact support</a>
+          <button class="btn primary" type="button" data-modal-close>Close</button>
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

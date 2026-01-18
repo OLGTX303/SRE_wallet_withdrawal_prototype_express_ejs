@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="pill warning">Security Alert</div>
+        <p class="h2" style="margin-top:10px;">Suspicious activity detected</p>
+        <p class="muted" style="margin-top:6px;">
+          We detected a suspicious reinvestment attempt and blocked it for your security.
+        </p>
+
+        <div class="banner warn">
+          <div class="row"><div>Alert ref</div><div><b><%= ref %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>Status</div><div><b>Blocked</b></div></div>
+        </div>
+
+        <div class="card" style="margin-top:12px;">
+          <div class="row">
+            <div>
+              <div class="muted">Withdrawals</div>
+              <div class="h2" style="margin-top:2px;"><%= state.withdrawalsFrozen ? 'Frozen' : 'Active' %></div>
+            </div>
+            <div class="pill <%= state.withdrawalsFrozen ? 'danger' : 'success' %>">
+              <%= state.withdrawalsFrozen ? 'Protection On' : 'Normal' %>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:12px;">
+            <% if (!state.withdrawalsFrozen) { %>
+              <form method="post" action="/misuse/freeze?scenario=<%= scenario %>" style="margin:0;">
+                <button class="btn small danger" type="submit">Freeze withdrawals</button>
+              </form>
+            <% } else { %>
+              <form method="post" action="/misuse/unfreeze?scenario=<%= scenario %>" style="margin:0;">
+                <button class="btn small ghost" type="submit">Unfreeze</button>
+              </form>
+            <% } %>
+
+            <a class="btn small primary" href="/security/tips?scenario=<%= scenario %>">Secure account</a>
+          </div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/reinvest?scenario=success">Try safe reinvestment</a>
+            <a class="btn primary" href="/dashboard?scenario=<%= scenario %>">Done</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="h2">Mitigation shown</p>
+        <ul class="muted" style="margin-top:8px; padding-left:18px;">
+          <li>Fraud/AML screening flags the attempt.</li>
+          <li>Transaction is blocked and an alert is recorded.</li>
+          <li>User can freeze withdrawals and secure the account.</li>
+        </ul>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

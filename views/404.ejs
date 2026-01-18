@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard' }) %>
+    <div class="container">
+      <div class="card center">
+        <p class="h2">Page not found</p>
+        <p class="muted" style="margin-top:6px;">The page you requested does not exist in this prototype.</p>
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn primary" href="/dashboard">Go to Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

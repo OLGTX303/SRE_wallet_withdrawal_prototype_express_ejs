@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/reinvest?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="pill danger">Not Eligible</div>
+        <p class="h2" style="margin-top:10px;">Reinvestment not eligible</p>
+        <p class="muted" style="margin-top:6px;">
+          We could not proceed with this reinvestment.
+        </p>
+
+        <div class="banner error" style="margin-top:12px;">
+          <div class="row">
+            <div>Product</div>
+            <div><b><%= product ? product.name : 'Unknown' %></b></div>
+          </div>
+          <div class="row" style="margin-top:6px;">
+            <div>Reason</div>
+            <div><b><%= reinvest.notEligibleReason || 'Eligibility rules not met.' %></b></div>
+          </div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/reinvest?scenario=<%= scenario %>">Change selection</a>
+            <a class="btn primary" href="/dashboard?scenario=<%= scenario %>">Back to Dashboard</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="h2">Tip</p>
+        <p class="muted" style="margin-top:6px;">Choose a different product or amount to meet eligibility rules.</p>
+      </div>
+    </div>
+    <div class="modal-overlay" data-modal>
+      <div class="modal-card">
+        <p class="h2">Action needed</p>
+        <p class="muted" style="margin-top:6px;">This reinvestment is not eligible. Contact customer service if needed.</p>
+        <div class="row" style="margin-top:12px;">
+          <a class="btn ghost" href="mailto:support@example.com">Contact support</a>
+          <button class="btn primary" type="button" data-modal-close>Close</button>
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/reinvest?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="step">Step 2 of 3</div>
+        <p class="h2">Review reinvestment</p>
+        <p class="muted" style="margin:6px 0 0;">Confirm before eligibility validation.</p>
+
+        <% if (error) { %>
+          <div class="banner error"><b>Action needed:</b> <%= error %></div>
+        <% } %>
+
+        <div class="hr"></div>
+
+        <div class="item">
+          <div class="left">
+            <div class="muted">From</div>
+            <div><b>Wallet Balance</b></div>
+          </div>
+          <div class="right">
+            <div class="muted">Available</div>
+            <div><b><%= formatRM(state.balance) %></b></div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="item">
+          <div class="left">
+            <div class="muted">Product</div>
+            <div><b><%= product ? product.name : 'Select a product' %></b></div>
+          </div>
+          <% if (product) { %>
+            <div class="right">
+              <div class="muted">Risk</div>
+              <div><b><%= product.riskTag %></b></div>
+            </div>
+          <% } %>
+        </div>
+
+        <div class="hr"></div>
+
+        <% const confirmAmount = Number(reinvest.amount); %>
+        <div class="item">
+          <div class="left">
+            <div class="muted">Amount</div>
+            <div><b><%= Number.isNaN(confirmAmount) ? "RM 0.00" : formatRM(confirmAmount) %></b></div>
+          </div>
+          <div class="right">
+            <div class="muted">Eligibility</div>
+            <div><b>Required</b></div>
+          </div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/reinvest?scenario=<%= scenario %>">Edit</a>
+            <form method="post" action="/reinvest/confirm?scenario=<%= scenario %>" style="width:100%; margin:0;">
+              <button class="btn primary" type="submit">Confirm Reinvest</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="h2">Security notice</p>
+        <p class="muted" style="margin:6px 0 0;">
+          We validate eligibility and screen reinvestments to protect your account.
+        </p>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

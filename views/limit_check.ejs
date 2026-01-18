@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card center" data-delay-ms="2200" <% if (scenario !== "limit") { %>data-auto-next="/withdraw/limit-check/result?scenario=<%= scenario %>"<% } %>>
+        <div class="step">Step 3 of 3</div>
+        <p class="h2">Checking transaction limits...</p>
+        <p class="muted" style="margin:6px 0 0;">We verify daily limits before sending to the bank.</p>
+        <div class="loader"></div>
+        <% const limitOutcome = scenario === "limit" ? "limit" : "pass"; %>
+        <% const limitSteps = limitOutcome === "limit"
+          ? "System: Load limit policy|System: Compare against usage|System: Limit exceeded"
+          : "System: Load limit policy|System: Compare against usage|System: Limit check passed"; %>
+        <div class="process-feed" data-process-feed data-outcome="<%= limitOutcome %>" data-steps="<%= limitSteps %>"></div>
+        <% if (scenario === "limit") { %>
+          <div style="margin-top:10px;">
+            <a class="btn small primary" href="/withdraw/limit-exceeded?scenario=<%= scenario %>">View limit result</a>
+          </div>
+        <% } %>
+        <p class="muted" style="margin-top:10px;">Please do not refresh.</p>
+      </div>
+
+      <div class="card">
+        <p class="h2">Demo note</p>
+        <p class="muted" style="margin:6px 0 0;">
+          Outcome is controlled by the scenario: <span class="kbd"><%= scenario %></span>
+        </p>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

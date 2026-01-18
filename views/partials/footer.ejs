@@ -1,0 +1,64 @@
+<% const showFullFooter = typeof footerMode !== 'undefined' && footerMode === 'full'; %>
+<% if (showFullFooter) { %>
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div class="footer-row">
+        <div class="footer-links">
+          <a href="/sitemap">Sitemap</a>
+          <a class="footer-link-split" href="/privacy-notice">Privacy Notice</a>
+          <a class="footer-link-split" href="/online-security">Online Security</a>
+          <a class="footer-link-split" href="/admin/audit">Admin / Audit (Demo)</a>
+        </div>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/Etiqa" target="_blank" rel="noopener noreferrer">
+            <img class="footer-social-icon" src="/public/icon/facebook.svg" alt="Facebook" />
+          </a>
+          <a href="https://www.linkedin.com/company/etiqa" target="_blank" rel="noopener noreferrer">
+            <img class="footer-social-icon" src="/public/icon/linkedin.svg" alt="LinkedIn" />
+          </a>
+          <a href="https://www.instagram.com/myEtiqa" target="_blank" rel="noopener noreferrer">
+            <img class="footer-social-icon" src="/public/icon/instagram.svg" alt="Instagram" />
+          </a>
+          <a href="https://www.youtube.com/Etiqa" target="_blank" rel="noopener noreferrer">
+            <img class="footer-social-icon" src="/public/icon/youtube.svg" alt="YouTube" />
+          </a>
+          <a href="https://www.pidm.gov.my/pidm2022/media/downloads/Takaful-And-Insurance-Benefits-Protection-System-Brochure.pdf" target="_blank" rel="noopener noreferrer">
+            <img class="footer-pidm" src="/public/icon/pidm.svg" alt="PIDM Logo" />
+          </a>
+        </div>
+      </div>
+      <p class="footer-copy">© <%= new Date().getFullYear() %> Etiqa. All Rights Reserved.</p>
+    </div>
+    <div class="footer-logos">
+      <a href="https://www.akpk.org.my/" target="_blank" rel="noopener noreferrer">
+        <img class="footer-logo" src="/public/icon/akpk.svg" alt="AKPK" />
+      </a>
+      <a href="https://www.bnm.gov.my/" target="_blank" rel="noopener noreferrer">
+        <img class="footer-logo" src="/public/icon/bnm.svg" alt="Bank Negara Malaysia" />
+      </a>
+      <a href="https://www.liam.org.my/" target="_blank" rel="noopener noreferrer">
+        <img class="footer-logo" src="/public/icon/liam.svg" alt="LIAM" />
+      </a>
+      <a href="https://aiiasia.org/" target="_blank" rel="noopener noreferrer">
+        <img class="footer-logo" src="/public/icon/aiia.svg" alt="AIIA" />
+      </a>
+      <a href="http://www.malaysiantakaful.com.my/" target="_blank" rel="noopener noreferrer">
+        <img class="footer-logo" src="/public/icon/malaysian-takaful.svg" alt="Malaysian Takaful" />
+      </a>
+      <a href="https://www.ofs.org.my/en/" target="_blank" rel="noopener noreferrer">
+        <img class="footer-logo" src="/public/icon/ofs.svg" alt="OFS" />
+      </a>
+      <a href="http://www.piam.org.my/" target="_blank" rel="noopener noreferrer">
+        <img class="footer-logo" src="/public/icon/piam.svg" alt="PIAM" />
+      </a>
+      <a href="https://www.bnm.gov.my/committees/sac" target="_blank" rel="noopener noreferrer">
+        <img class="footer-logo" src="/public/icon/sac.svg" alt="Shariah Advisory Council" />
+      </a>
+    </div>
+  </footer>
+<% } else { %>
+  <div class="site-footer-compact">
+    © <%= new Date().getFullYear() %> Etiqa. All Rights Reserved.
+  </div>
+<% } %>
+<script src="/public/js/app.js"></script>

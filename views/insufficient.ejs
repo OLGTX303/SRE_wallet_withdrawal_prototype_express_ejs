@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/withdraw?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="pill danger">Unsuccessful</div>
+        <p class="h2" style="margin-top:10px;">Insufficient balance</p>
+        <p class="muted" style="margin-top:6px;">
+          The withdrawal amount exceeds your available wallet balance.
+        </p>
+
+        <div class="banner error" style="margin-top:12px;">
+          <div class="row">
+            <div>Available</div>
+            <div><b><%= formatRM(state.balance) %></b></div>
+          </div>
+          <div class="row" style="margin-top:6px;">
+            <div>Requested</div>
+            <div><b><%= formatRM(withdrawal.amount || 0) %></b></div>
+          </div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/withdraw?scenario=<%= scenario %>">Change amount</a>
+            <a class="btn primary" href="/dashboard?scenario=<%= scenario %>">Back to Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-overlay" data-modal>
+      <div class="modal-card">
+        <p class="h2">Action needed</p>
+        <p class="muted" style="margin-top:6px;">We couldn't complete this withdrawal. Contact customer service for help.</p>
+        <div class="row" style="margin-top:12px;">
+          <a class="btn ghost" href="mailto:support@example.com">Contact support</a>
+          <button class="btn primary" type="button" data-modal-close>Close</button>
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

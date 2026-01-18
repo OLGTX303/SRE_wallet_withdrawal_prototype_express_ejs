@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="success-anim" aria-hidden="true">
+          <svg viewBox="0 0 52 52" class="success-anim-svg">
+            <circle class="success-anim-circle" cx="26" cy="26" r="24"></circle>
+            <path class="success-anim-check" d="M16 27.5l6.2 6.2L36 20"></path>
+          </svg>
+        </div>
+        <div class="pill success">Successful</div>
+        <p class="h2" style="margin-top:10px;">Withdrawal completed</p>
+        <p class="muted" style="margin-top:6px;">Here is your receipt.</p>
+
+        <div class="banner ok">
+          <div class="row"><div>Reference</div><div><b><%= withdrawal.ref %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>To</div><div><b><%= bank.name %> <%= bank.acctMasked %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>Amount</div><div><b><%= formatRM(withdrawal.amount || 0) %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>Date & time</div><div><b><%= new Date().toLocaleString() %></b></div></div>
+        </div>
+
+        <div class="card" style="margin-top:12px;">
+          <div class="row">
+            <div>
+              <div class="muted">New balance</div>
+              <div class="amount" style="margin-top:2px;"><%= formatRM(state.balance) %></div>
+            </div>
+            <div class="pill success">Notified</div>
+          </div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/dashboard?scenario=<%= scenario %>">Done</a>
+            <a class="btn primary" href="/withdraw?scenario=<%= scenario %>">New withdrawal</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="h2">Share receipt (mock)</p>
+        <p class="muted" style="margin-top:6px;">In a real app, users can share or download the receipt.</p>
+      </div>
+    </div>
+    <div class="process-toast-stack" data-process-toast data-steps="System: Screening passed|System: Limit check passed|Bank: ACK received|System: Wallet debited|System: Receipt ready"></div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

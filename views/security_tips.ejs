@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <p class="h2">Secure your account</p>
+        <p class="muted" style="margin-top:6px;">
+          Simple controls you can show as mitigation in your prototype.
+        </p>
+
+        <div class="list">
+          <div class="banner ok">
+            <b>Enable 2-step verification (2FA)</b>
+            <div class="muted" style="margin-top:6px;">Adds protection if someone knows your password.</div>
+            <div style="margin-top:8px;">
+              <a class="btn small ghost" href="/security/2fa">Manage 2FA</a>
+            </div>
+          </div>
+          <div class="banner warn">
+            <b>Review linked bank accounts</b>
+            <div class="muted" style="margin-top:6px;">Remove unknown accounts and update your details.</div>
+            <div style="margin-top:8px;">
+              <a class="btn small ghost" href="/security/linked-banks">View linked banks</a>
+            </div>
+          </div>
+          <div class="banner warn">
+            <b>Set safer limits</b>
+            <div class="muted" style="margin-top:6px;">Lower daily limits reduce fraud impact.</div>
+            <div style="margin-top:8px;">
+              <a class="btn small ghost" href="/security/limits">Update limits</a>
+            </div>
+          </div>
+          <div class="banner error">
+            <b>Report suspicious activity</b>
+            <div class="muted" style="margin-top:6px;">Contact support with your reference ID.</div>
+            <div style="margin-top:8px;">
+              <a class="btn small ghost" href="/security/report">Report now</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/dashboard?scenario=<%= scenario %>">Back</a>
+            <a class="btn primary" href="/withdraw?scenario=<%= scenario %>">Withdraw</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

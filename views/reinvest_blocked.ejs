@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="pill danger">Blocked</div>
+        <p class="h2" style="margin-top:10px;">Reinvestment blocked</p>
+        <p class="muted" style="margin-top:6px;">
+          This reinvestment was blocked and sent for finance review.
+        </p>
+
+        <div class="banner error">
+          <div class="row">
+            <div>Reference</div>
+            <div><b><%= reinvest.ref %></b></div>
+          </div>
+          <div class="row" style="margin-top:6px;">
+            <div>Reason</div>
+            <div><b>High-risk pattern</b></div>
+          </div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/security/tips?scenario=<%= scenario %>">Secure your account</a>
+            <a class="btn primary" href="/security/report?scenario=<%= scenario %>">Report activity</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="h2">Need help?</p>
+        <p class="muted" style="margin-top:6px;">Contact support and provide the reference ID for faster assistance.</p>
+      </div>
+    </div>
+    <div class="modal-overlay" data-modal>
+      <div class="modal-card">
+        <p class="h2">Action needed</p>
+        <p class="muted" style="margin-top:6px;">This reinvestment was blocked. Contact customer service for assistance.</p>
+        <div class="row" style="margin-top:12px;">
+          <a class="btn ghost" href="mailto:support@example.com">Contact support</a>
+          <button class="btn primary" type="button" data-modal-close>Close</button>
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/security/tips' }) %>
+    <div class="container">
+      <div class="card">
+        <div class="pill <%= state.twoFAEnabled ? 'success' : 'warning' %>">
+          <%= state.twoFAEnabled ? 'Enabled' : 'Disabled' %>
+        </div>
+        <p class="h2">Enable 2-step verification (2FA)</p>
+        <p class="muted" style="margin-top:6px;">Adds protection if someone knows your password.</p>
+
+        <div class="banner <%= state.twoFAEnabled ? 'ok' : 'warn' %>" style="margin-top:12px;">
+          <div class="row">
+            <div>2FA status</div>
+            <div><b><%= state.twoFAEnabled ? 'Enabled' : 'Disabled' %></b></div>
+          </div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/security/tips">Back</a>
+            <% if (state.twoFAEnabled) { %>
+              <form method="post" action="/security/2fa/disable" style="margin:0; width:100%;">
+                <button class="btn primary" type="submit">Disable 2FA (Mock)</button>
+              </form>
+            <% } else { %>
+              <form method="post" action="/security/2fa/enable" style="margin:0; width:100%;">
+                <button class="btn primary" type="submit">Enable 2FA (Mock)</button>
+              </form>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

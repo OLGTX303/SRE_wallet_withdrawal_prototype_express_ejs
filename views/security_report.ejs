@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/security/tips' }) %>
+    <div class="container">
+      <div class="card">
+        <p class="h2">Report suspicious activity</p>
+        <p class="muted" style="margin-top:6px;">Contact support with your reference ID.</p>
+
+        <% if (error) { %>
+          <div class="banner error" style="margin-top:12px;"><b>Action needed:</b> <%= error %></div>
+        <% } %>
+        <% if (submitted) { %>
+          <div class="banner ok" style="margin-top:12px;"><b>Report submitted:</b> Case ID <%= submitted.caseId %></div>
+        <% } %>
+
+        <form method="post" action="/security/report">
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category" name="category">
+              <option value="">Select a category</option>
+              <option>Unauthorized withdrawal</option>
+              <option>Unknown bank</option>
+              <option>Scam</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="ref">Reference ID (optional)</label>
+            <input id="ref" name="ref" placeholder="e.g. WD-ABCD1234" />
+          </div>
+
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Describe what happened"></textarea>
+          </div>
+
+          <div class="sticky">
+            <div class="inner">
+              <a class="btn ghost" href="/security/tips">Back</a>
+              <button class="btn primary" type="submit">Submit report</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

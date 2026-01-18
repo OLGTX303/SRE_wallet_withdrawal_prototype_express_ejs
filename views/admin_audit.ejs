@@ -1,0 +1,99 @@
+﻿<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard' }) %>
+    <div class="container">
+      <div class="card">
+        <p class="h2">Audit Logs</p>
+        <p class="muted" style="margin-top:6px;">Mock admin view for UC014 logging.</p>
+
+        <% if (exported) { %>
+          <div class="banner ok" style="margin-top:12px;"><b>Export generated (mock).</b></div>
+        <% } %>
+
+        <div class="row" style="margin-top:8px;">
+          <a class="btn small ghost" href="/admin/audit?export=1">Export (mock)</a>
+        </div>
+
+        <div class="hr"></div>
+
+        <p class="h2">Recent withdrawal</p>
+        <% if (state.lastWithdrawal) { %>
+          <div class="banner ok" style="margin-top:8px;">
+            <div class="row"><div>Reference</div><div><b><%= state.lastWithdrawal.ref %></b></div></div>
+            <div class="row" style="margin-top:6px;"><div>Amount</div><div><b><%= formatRM(state.lastWithdrawal.amount) %></b></div></div>
+            <div class="row" style="margin-top:6px;"><div>Status</div><div><b><%= state.lastWithdrawal.status %></b></div></div>
+          </div>
+        <% } else { %>
+          <div class="muted">No withdrawal recorded yet.</div>
+        <% } %>
+
+        <div class="hr"></div>
+
+        <p class="h2">Recent reinvestment</p>
+        <% if (state.lastReinvest) { %>
+          <div class="banner ok" style="margin-top:8px;">
+            <div class="row"><div>Reference</div><div><b><%= state.lastReinvest.ref %></b></div></div>
+            <div class="row" style="margin-top:6px;"><div>Product</div><div><b><%= state.lastReinvest.product ? state.lastReinvest.product.name : 'N/A' %></b></div></div>
+            <div class="row" style="margin-top:6px;"><div>Amount</div><div><b><%= formatRM(state.lastReinvest.amount) %></b></div></div>
+            <div class="row" style="margin-top:6px;"><div>Status</div><div><b><%= state.lastReinvest.status %></b></div></div>
+          </div>
+        <% } else { %>
+          <div class="muted">No reinvestment recorded yet.</div>
+        <% } %>
+
+        <div class="hr"></div>
+
+        <p class="h2">Security alerts</p>
+        <% if (state.alerts && state.alerts.length) { %>
+          <div class="list" style="margin-top:8px;">
+            <% state.alerts.slice(0, 10).forEach(a => { %>
+              <div class="banner <%= a.type === 'Blocked' ? 'error' : (a.type === 'Hold' ? 'warn' : 'warn') %>">
+                <div class="row">
+                  <div><b><%= a.title %></b></div>
+                  <div class="muted"><%= new Date(a.ts).toLocaleString() %></div>
+                </div>
+                <div class="muted" style="margin-top:6px;"><%= a.detail %></div>
+              </div>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="muted">No alerts recorded.</div>
+        <% } %>
+
+        <div class="hr"></div>
+
+        <p class="h2">Security settings</p>
+        <div class="banner warn" style="margin-top:8px;">
+          <div class="row"><div>2FA</div><div><b><%= state.twoFAEnabled ? 'Enabled' : 'Disabled' %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>Withdrawals</div><div><b><%= state.withdrawalsFrozen ? 'Frozen' : 'Active' %></b></div></div>
+        </div>
+
+        <div class="hr"></div>
+
+        <% if (!state.auditLogs || state.auditLogs.length === 0) { %>
+          <div class="muted">No audit events recorded yet.</div>
+        <% } else { %>
+          <div class="list">
+            <% state.auditLogs.slice(0, 30).forEach(log => { %>
+              <div class="item">
+                <div class="left">
+                  <div><b><%= log.action %></b> <span class="muted">• <%= log.outcome %></span></div>
+                  <div class="muted"><%= log.userId %> • <%= new Date(log.ts).toLocaleString() %></div>
+                  <% if (log.meta && Object.keys(log.meta).length) { %>
+                    <div class="muted">Meta: <%= JSON.stringify(log.meta) %></div>
+                  <% } %>
+                </div>
+                <div class="right">
+                  <div class="muted"><%= log.signature %></div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

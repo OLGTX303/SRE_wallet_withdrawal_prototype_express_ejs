@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: null }) %>
+
+    <div class="dash-hero">
+      <div class="dash-hero-inner">
+        <div class="dash-brand">Etiqa Cashback Wallet</div>
+        <div class="dash-lastlogin">
+          Your last login was on <b><%= new Date().toLocaleString() %></b>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-shell">
+      <main class="dash-main">
+        <div class="dash-promo">
+          <div>
+            <div class="dash-promo-title">Invested amount</div>
+            <div class="dash-promo-sub">Total reinvested balance (demo).</div>
+          </div>
+          <div class="dash-account-amount"><%= formatRM(state.investedAmount || 0) %></div>
+        </div>
+
+        <div class="dash-promo">
+          <div>
+            <div class="dash-promo-title">Today cash back</div>
+            <div class="dash-promo-sub">Earn rewards on eligible wallet activity.</div>
+          </div>
+          <div class="dash-account-amount">RM 12.80</div>
+        </div>
+
+        <div class="dash-section">
+          <div class="dash-account-card">
+            <div class="dash-account-title">Etiqa Wallet Balance</div>
+            <div class="muted">Available</div>
+            <div class="dash-account-amount"><%= formatRM(state.balance) %></div>
+            <div class="row" style="margin-top:10px;">
+              <a class="btn primary" href="/reinvest?scenario=<%= scenario %>">Reinvest Funds</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-section">
+          <div class="dash-account-card">
+            <div class="dash-account-title">Demo Scenarios</div>
+            <div class="muted">Select a scenario to control demo outcome.</div>
+            <form method="get" action="/dashboard" class="row" style="margin-top:10px; gap:10px; flex-wrap:wrap;">
+              <select name="scenario">
+                <option value="success" <%= scenario === 'success' ? 'selected' : '' %>>Success</option>
+                <option value="insufficient" <%= scenario === 'insufficient' ? 'selected' : '' %>>Insufficient Balance</option>
+                <option value="noteligible" <%= scenario === 'noteligible' ? 'selected' : '' %>>Not Eligible</option>
+                <option value="hold" <%= scenario === 'hold' ? 'selected' : '' %>>Under Review</option>
+                <option value="blocked" <%= scenario === 'blocked' ? 'selected' : '' %>>Blocked</option>
+              </select>
+              <button class="btn small ghost" type="submit">Apply</button>
+            </form>
+            <div class="row" style="margin-top:10px; flex-wrap:wrap;">
+              <a class="btn small ghost" href="/security/tips">2FA / Security Tips</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-section">
+          <div class="dash-account-card">
+            <div class="dash-account-title">Admin Evidence</div>
+            <div class="muted">Audit logs for UC014 evidence (restart server before demo).</div>
+            <div class="row" style="margin-top:10px;">
+              <a class="btn ghost" href="/admin/audit">Open Audit Logs</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <%- include('partials/footer', { footerMode: 'full' }) %>
+  </body>
+</html>

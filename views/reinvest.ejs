@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="step">Step 1 of 3</div>
+        <p class="h2" style="margin-top:6px;">Reinvest funds</p>
+        <p class="muted" style="margin-top:6px;">Move wallet balance into an Etiqa product.</p>
+
+        <div class="hr"></div>
+
+        <div class="item">
+          <div class="left">
+            <div class="muted">Available balance</div>
+            <div class="amount" style="margin-top:2px;"><%= formatRM(state.balance) %></div>
+          </div>
+          <div class="right">
+            <div class="pill <%= state.twoFAEnabled ? 'success' : 'warn' %>">
+              <%= state.twoFAEnabled ? '2FA Enabled' : '2FA Recommended' %>
+            </div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <% const amountNum = Number(reinvest.amount); %>
+        <% const amountInvalid = reinvest.amount && (Number.isNaN(amountNum) || amountNum <= 0); %>
+        <% const amountOver = reinvest.amount && !Number.isNaN(amountNum) && amountNum > state.balance; %>
+        <% const selectedProduct = product; %>
+
+        <form method="post" action="/reinvest?scenario=<%= scenario %>">
+          <div class="field">
+            <label for="productId">Etiqa product</label>
+            <select id="productId" name="productId">
+              <% state.products.forEach(p => { %>
+                <option value="<%= p.id %>" <%= reinvest.productId === p.id ? 'selected' : '' %>><%= p.name %></option>
+              <% }) %>
+            </select>
+            <% if (selectedProduct) { %>
+              <div class="muted" style="margin-top:6px;">
+                Min: <%= formatRM(selectedProduct.minAmount) %> |
+                Max: <%= formatRM(selectedProduct.maxAmount) %> |
+                Risk: <%= selectedProduct.riskTag %>
+              </div>
+            <% } %>
+          </div>
+
+          <div class="field">
+            <label for="amount">Amount (RM)</label>
+            <input id="amount" name="amount" inputmode="decimal" placeholder="e.g. 500.00" value="<%= reinvest.amount %>"/>
+            <% if (amountInvalid) { %>
+              <div class="inline-error">Enter an amount greater than 0.</div>
+            <% } else if (amountOver) { %>
+              <div class="inline-error">Amount exceeds your available balance.</div>
+            <% } %>
+          </div>
+
+          <div class="chips">
+            <button class="chip" type="submit" name="amount" value="200">RM200</button>
+            <button class="chip" type="submit" name="amount" value="500">RM500</button>
+            <button class="chip" type="submit" name="amount" value="1000">RM1000</button>
+          </div>
+
+          <p class="muted" style="margin-top:8px;">Eligibility validation and security screening apply.</p>
+
+          <div class="sticky">
+            <div class="inner">
+              <button class="btn primary" type="submit">Continue</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

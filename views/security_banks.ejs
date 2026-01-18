@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/security/tips' }) %>
+    <div class="container">
+      <div class="card">
+        <p class="h2">Review linked bank accounts</p>
+        <p class="muted" style="margin-top:6px;">Remove unknown accounts and update your details.</p>
+
+        <% const onlyOne = state.linkedBanks.length <= 1; %>
+        <% if (onlyOne) { %>
+          <div class="banner warn" style="margin-top:12px;">
+            Keep at least one linked bank account.
+          </div>
+        <% } %>
+
+        <div class="list" style="margin-top:10px;">
+          <% state.linkedBanks.forEach(b => { %>
+            <div class="item">
+              <div class="left">
+                <div><b><%= b.name %></b> <span class="muted"><%= b.acctMasked %></span></div>
+                <div class="muted">Status: Linked</div>
+              </div>
+              <div class="right">
+                <form method="post" action="/security/linked-banks/remove" style="margin:0;">
+                  <input type="hidden" name="bankId" value="<%= b.id %>" />
+                  <button class="btn small ghost" type="submit" <%= onlyOne ? 'disabled' : '' %> onclick="return confirm('Remove this linked bank account?');">
+                    <%= onlyOne ? 'Keep 1 bank' : 'Remove' %>
+                  </button>
+                </form>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/security/tips">Back</a>
+            <a class="btn primary" href="/misuse/add-bank">Add new bank</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

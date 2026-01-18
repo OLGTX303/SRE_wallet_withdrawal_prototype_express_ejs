@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card center" data-delay-ms="2200" data-auto-next="/withdraw/bank-processing/result?scenario=<%= scenario %>">
+        <div class="step">Step 3 of 3</div>
+        <p class="h2">Sending request to bank...</p>
+        <p class="muted" style="margin:6px 0 0;">We're waiting for confirmation from your bank.</p>
+        <div class="loader"></div>
+        <% const bankOutcome = scenario === "nack" ? "fail" : (scenario === "timeout" ? "timeout" : "pass"); %>
+        <% const bankSteps = bankOutcome === "fail"
+          ? "System: Create request|Bank: Processing transfer|Bank: Declined (NACK)"
+          : (bankOutcome === "timeout"
+            ? "System: Create request|Bank: Processing transfer|Bank: Timeout"
+            : "System: Create request|Bank: Processing transfer|Bank: ACK received"); %>
+        <div class="process-feed" data-process-feed data-outcome="<%= bankOutcome %>" data-steps="<%= bankSteps %>"></div>
+        <p class="muted" style="margin-top:10px;">Please do not refresh.</p>
+      </div>
+
+      <div class="card">
+        <p class="h2">Demo note</p>
+        <p class="muted" style="margin:6px 0 0;">
+          Outcome is controlled by the scenario: <span class="kbd"><%= scenario %></span>
+        </p>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

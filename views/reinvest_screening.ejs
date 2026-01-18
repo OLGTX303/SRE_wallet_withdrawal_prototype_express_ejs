@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card center" data-delay-ms="2200" data-auto-next="/reinvest/screening/result?scenario=<%= scenario %>">
+        <div class="step">Step 3 of 3</div>
+        <p class="h2">Running security checks...</p>
+        <p class="muted" style="margin:6px 0 0;">This helps protect you from unauthorized activity.</p>
+        <div class="loader"></div>
+        <% const screeningOutcome = (scenario === "blocked" || scenario === "hold") ? "blocked" : "pass"; %>
+        <% const screeningSteps = screeningOutcome === "blocked"
+          ? "System: Receive request|System: Apply fraud & AML rules|System: High-risk detected (blocked)"
+          : "System: Receive request|System: Apply fraud & AML rules|System: Screening passed"; %>
+        <div class="process-feed" data-process-feed data-outcome="<%= screeningOutcome %>" data-steps="<%= screeningSteps %>"></div>
+        <p class="muted" style="margin-top:10px;">Please do not refresh.</p>
+      </div>
+
+      <div class="card">
+        <p class="h2">Demo note</p>
+        <p class="muted" style="margin:6px 0 0;">
+          Outcome is controlled by the scenario: <span class="kbd"><%= scenario %></span>
+        </p>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

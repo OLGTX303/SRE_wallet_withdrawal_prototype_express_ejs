@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/withdraw?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="step">Step 2 of 3</div>
+        <p class="h2">Review details</p>
+        <p class="muted" style="margin:6px 0 0;">Please confirm before we run security checks.</p>
+
+        <% if (error) { %>
+          <div class="banner error"><b>Action needed:</b> <%= error %></div>
+        <% } %>
+
+        <div class="hr"></div>
+
+        <div class="item">
+          <div class="left">
+            <div class="muted">From</div>
+            <div><b>Wallet</b></div>
+          </div>
+          <div class="right">
+            <div class="muted">Available</div>
+            <div><b><%= formatRM(state.balance) %></b></div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="item">
+          <div class="left">
+            <div class="muted">To</div>
+            <div><b><%= bank.name %></b> <span class="muted"><%= bank.acctMasked %></span></div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="item">
+          <div class="left">
+            <div class="muted">Amount</div>
+            <div><b><%= withdrawal.amount ? formatRM(withdrawal.amount) : "—" %></b></div>
+            <% if (withdrawal.note) { %>
+              <div class="muted">Reference: <%= withdrawal.note %></div>
+            <% } %>
+          </div>
+          <div class="right">
+            <div class="muted">Estimated arrival</div>
+            <div><b>Instant / Same day</b></div>
+          </div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/withdraw?scenario=<%= scenario %>">Edit</a>
+            <form method="post" action="/withdraw/confirm?scenario=<%= scenario %>" style="width:100%; margin:0;">
+              <button class="btn primary" type="submit">Confirm Withdrawal</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="h2">Security notice</p>
+        <p class="muted" style="margin:6px 0 0;">
+          We may place transactions on hold or block suspicious activity to protect your account.
+        </p>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

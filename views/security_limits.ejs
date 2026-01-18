@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/security/tips' }) %>
+    <div class="container">
+      <div class="card">
+        <p class="h2">Set safer limits</p>
+        <p class="muted" style="margin-top:6px;">Lower daily limits reduce fraud impact.</p>
+
+        <% if (error) { %>
+          <div class="banner error" style="margin-top:12px;"><b>Action needed:</b> <%= error %></div>
+        <% } %>
+
+        <div class="banner warn" style="margin-top:12px;">
+          <div class="row"><div>Current daily limit</div><div><b><%= formatRM(state.dailyLimit) %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>Used today</div><div><b><%= formatRM(state.usedToday) %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>Remaining</div><div><b><%= formatRM(Math.max(0, state.dailyLimit - state.usedToday)) %></b></div></div>
+        </div>
+
+        <form method="post" action="/security/limits">
+          <div class="field">
+            <label for="limit">New daily limit (RM)</label>
+            <input id="limit" name="limit" inputmode="decimal" placeholder="e.g. 1000.00" value="<%= newLimit %>" />
+          </div>
+
+          <div class="sticky">
+            <div class="inner">
+              <a class="btn ghost" href="/security/tips">Back</a>
+              <button class="btn primary" type="submit">Save limit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/withdraw?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="pill danger">Unsuccessful</div>
+        <p class="h2" style="margin-top:10px;">Daily limit exceeded</p>
+        <p class="muted" style="margin-top:6px;">
+          Your withdrawal exceeds your remaining daily withdrawal limit.
+        </p>
+
+        <div class="banner error">
+          <% const remaining = Math.max(0, state.dailyLimit - state.usedToday); %>
+          <div class="row"><div>Daily limit</div><div><b><%= formatRM(state.dailyLimit) %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>Used today</div><div><b><%= formatRM(state.usedToday) %></b></div></div>
+          <div class="row" style="margin-top:6px;"><div>Remaining</div><div><b><%= formatRM(remaining) %></b></div></div>
+        </div>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/withdraw?scenario=<%= scenario %>">Change amount</a>
+            <a class="btn primary" href="/dashboard?scenario=<%= scenario %>">Done</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="h2">Tip</p>
+        <p class="muted" style="margin-top:6px;">Limits help reduce fraud and protect customers from abnormal transfers.</p>
+      </div>
+    </div>
+    <div class="modal-overlay" data-modal>
+      <div class="modal-card">
+        <p class="h2">Action needed</p>
+        <p class="muted" style="margin-top:6px;">This withdrawal exceeds your limit. Contact customer service if needed.</p>
+        <div class="row" style="margin-top:12px;">
+          <a class="btn ghost" href="mailto:support@example.com">Contact support</a>
+          <button class="btn primary" type="button" data-modal-close>Close</button>
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

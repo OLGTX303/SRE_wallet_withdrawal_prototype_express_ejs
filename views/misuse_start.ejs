@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <% const demoInfo = scenario === 'hold'
+        ? { title: 'Scenario: Under Review (Hold)', detail: 'This demo will flag the attempt for manual review and place the reinvestment on hold.' }
+        : (scenario === 'blocked'
+          ? { title: 'Scenario: Blocked', detail: 'This demo will block the reinvestment and generate a security alert.' }
+          : (scenario === 'success'
+            ? { title: 'Scenario: Success (note)', detail: 'Misuse demos should block or hold; this will still show a security response.' }
+            : { title: 'Scenario: Security Response', detail: 'This demo will show a security response for a suspicious attempt.' })); %>
+      <div class="card">
+        <div class="pill warning">Demo info</div>
+        <p class="h2" style="margin-top:10px;"><%= demoInfo.title %></p>
+        <p class="muted" style="margin-top:6px;"><%= demoInfo.detail %></p>
+      </div>
+
+      <div class="card">
+        <div class="pill danger">Misuse Case</div>
+        <p class="h2" style="margin-top:10px;">Fraudulent reinvestment attempt</p>
+        <p class="muted" style="margin-top:6px;">
+          This demo simulates an attacker adding a new bank account and attempting a large reinvestment.
+          The system triggers mitigation (blocking + alert).
+        </p>
+
+        <div class="sticky">
+          <div class="inner">
+            <a class="btn ghost" href="/dashboard?scenario=<%= scenario %>">Cancel</a>
+            <a class="btn primary" href="/misuse/add-bank?scenario=<%= scenario %>">Start demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="h2">How mitigation is shown</p>
+        <ul class="muted" style="margin-top:8px; padding-left:18px;">
+          <li>New bank account is added (mock).</li>
+          <li>System flags suspicious pattern and blocks.</li>
+          <li>User sees security alert and can freeze withdrawals.</li>
+        </ul>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>
+
+

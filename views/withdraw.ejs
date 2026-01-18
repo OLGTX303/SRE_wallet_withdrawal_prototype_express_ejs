@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head><%- include('partials/head') %></head>
+  <body>
+    <%- include('partials/appbar', { back: '/dashboard?scenario=' + scenario }) %>
+    <div class="container">
+      <div class="card">
+        <div class="step">Step 1 of 3</div>
+        <p class="h2" style="margin-top:6px;">Withdraw to bank</p>
+        <p class="muted" style="margin-top:6px;">Send money from your wallet to a linked bank account.</p>
+
+        <div class="hr"></div>
+
+        <div class="item">
+          <div class="left">
+            <div class="muted">Available balance</div>
+            <div class="amount" style="margin-top:2px;"><%= formatRM(state.balance) %></div>
+          </div>
+          <div class="right">
+            <div class="pill success">Secure</div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <% const amountNum = Number(withdrawal.amount); %>
+        <% const amountInvalid = withdrawal.amount && (Number.isNaN(amountNum) || amountNum <= 0); %>
+        <% const amountOver = withdrawal.amount && !Number.isNaN(amountNum) && amountNum > state.balance; %>
+
+        <form method="post" action="/withdraw?scenario=<%= scenario %>">
+          <div class="field">
+            <label for="bankId">Linked bank account</label>
+            <select id="bankId" name="bankId">
+              <% state.linkedBanks.forEach(b => { %>
+                <option value="<%= b.id %>" <%= withdrawal.bankId === b.id ? 'selected' : '' %>><%= b.name %> <%= b.acctMasked %></option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="amount">Amount (RM)</label>
+            <input id="amount" name="amount" inputmode="decimal" placeholder="e.g. 200.00" value="<%= withdrawal.amount %>"/>
+            <% if (amountInvalid) { %>
+              <div class="inline-error">Enter an amount greater than 0.</div>
+            <% } else if (amountOver) { %>
+              <div class="inline-error">Amount exceeds your available balance.</div>
+            <% } %>
+          </div>
+
+          <div class="chips">
+            <button class="chip" type="submit" name="quick" value="50">RM50</button>
+            <button class="chip" type="submit" name="quick" value="100">RM100</button>
+            <button class="chip" type="submit" name="quick" value="200">RM200</button>
+          </div>
+
+          <div class="field">
+            <label for="note">Reference (optional)</label>
+            <textarea id="note" name="note" placeholder="e.g. Savings transfer"><%= withdrawal.note %></textarea>
+          </div>
+
+          <p class="muted" style="margin-top:8px;">Withdrawals may be subject to screening.</p>
+
+          <div class="sticky">
+            <div class="inner">
+              <button class="btn primary" type="submit">Continue</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>
