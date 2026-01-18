@@ -41,7 +41,7 @@ function ensureState(req) {
       twoFAEnabled: false,
       blockedBankAccounts: [],
       linkedBanks: [
-        { id: "mbb", name: "Maybank", acctMasked: "**** 1234" },
+        { id: "mbb", name: "sre-etiqa", acctMasked: "**** 1234" },
         { id: "cimb", name: "CIMB", acctMasked: "**** 8891" },
       ],
       products: [
@@ -652,3 +652,4 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Prototype running at http://localhost:${PORT}`);
 });
+

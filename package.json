@@ -1,7 +1,7 @@
 {
-  "name": "maybank-wallet-withdrawal-prototype",
+  "name": "sre-etiqa-wallet-withdrawal-prototype",
   "version": "1.0.0",
-  "description": "High-fidelity prototype (Express + EJS) for Wallet Withdrawal & Fraud Control - Maybank-inspired UI",
+  "description": "High-fidelity prototype (Express + EJS) for Wallet Withdrawal & Fraud Control - sre-etiqa-inspired UI",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -16,3 +16,4 @@
     "playwright": "^1.57.0"
   }
 }
+
